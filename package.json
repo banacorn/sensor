@@ -1,0 +1,19 @@
+{
+  "author": "Elliot Lai <ellliotlai@gmail.com>",
+  "name": "breadcrumb",
+  "description": "file browser",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/elliotlai/breadcrumb.git"
+  },
+  "main": "lib/app.js",
+  "engines": {
+    "node": "~0.6.2 || 0.6.2-pre"
+  },
+  "dependencies": {
+    "express": "*",
+    "socket.io": "*"
+  },
+  "devDependencies": {}
+}

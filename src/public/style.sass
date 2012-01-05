@@ -1,0 +1,71 @@
+@import 'compass/reset'
+@import 'compass/css3'
+@import 'compass/utilities'
+
+@font-face
+    font:
+        family: 'Hammersmith One'
+        style: normal
+        weight: normal
+    src: local('Hammersmith One'), local('HammersmithOne'), url('fonts/HammersmithOne.woff') format('woff')
+
+$grau: rgb(200, 200, 200)
+
+body
+    font-family: Helvetica, Verdana, 'LiHei Pro', '微軟正黑體', '新細明體', Arial, sans-serif
+    
+#container
+    width: 1000px
+    margin: 20px auto
+
+
+#wave
+#meter
+    +clearfix
+   
+.chart
+    float: left
+    overflow: hidden
+    width: 480px
+    margin: 20px 10px
+    height: 150px
+    box-shadow: inset $grau 0px 0px 10px
+    border-radius: 8px
+    
+    
+.meter
+    float: left
+    width: 230px
+    height: 150px
+    margin: 20px 10px
+    box-shadow: inset $grau 0px 0px 10px
+    border-radius: 8px
+    .digits
+        position: relative
+        z-index: 80
+        font-size: 300%
+        text-align: center
+        line-height: 150px
+        color: rgb(120, 120, 120)
+    
+.foo
+    position: relative
+    z-index: 100
+    top: -150px
+    height: 40px
+    padding: 0 20px
+    line-height: 40px
+    
+    .name
+        color: rgb(160, 160, 160)
+        font-size: 150%
+        
+    .unit
+        color: rgb(180, 180, 180)
+        padding-left: 10px
+    
+
+.template
+    display: none
+    
+
