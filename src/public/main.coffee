@@ -7,8 +7,11 @@ require.config
     
 require ['jquery', 'raphael', 'socketio'], ($, Raphael, io) ->
     
+    phone = ''
+    
+    
     class Meter
-        constructor: (@data) ->
+        constructor: (@data, @socket) ->
             #console.log @data
     
             html = $('#meter-template').html()
@@ -37,13 +40,13 @@ require ['jquery', 'raphael', 'socketio'], ($, Raphael, io) ->
         width: 480
         
     
-        constructor: (@data) ->
+        constructor: (@data, @socket) ->
         
             
             
             now = new Date
             
-            
+            @data.alert = false
             @data.values = []
             
             
@@ -93,6 +96,22 @@ require ['jquery', 'raphael', 'socketio'], ($, Raphael, io) ->
             
             @data.values.shift() while (now - @data.values[0].time) > 3500
         
+            
+        
+            if not @data.alert
+            
+                if data.value > data.upperThreshold or data.value < data.lowerThreshold
+                    console.log "!!!!!!!!!"
+                    @data.alert = true
+                    @socket.emit 'sms'
+                    
+                    
+                
+                
+            if @data.alert
+                if data.value < data.upperThreshold and data.value > data.lowerThreshold
+                    console.log "123123123"
+                    @data.alert = false
                 
         update: ->
         
@@ -102,6 +121,7 @@ require ['jquery', 'raphael', 'socketio'], ($, Raphael, io) ->
                 dot.x = @width + 150 - (now - dot.time)/5 
                 dot.y = @height - (dot.value - @data.lowerBound)*@height/(@data.upperBound - @data.lowerBound)         
             
+        
         
         render: ->
         
@@ -135,6 +155,11 @@ require ['jquery', 'raphael', 'socketio'], ($, Raphael, io) ->
     # localhost:8000
     socket = io.connect()
     
+    socket.on 'phone', (number) ->
+        console.log number
+        phone = number
+        $('#sms-number').text phone
+    
     socket.on 'data', (data) ->
         data = JSON.parse data
     
@@ -151,9 +176,9 @@ require ['jquery', 'raphael', 'socketio'], ($, Raphael, io) ->
             console.log data
             if data.waveform is "false" then data.waveform = false else data.waveform = true
             if data.waveform 
-                streams[data.name] = new Wave data
+                streams[data.name] = new Wave data, socket
             else
-                streams[data.name] = new Meter data
+                streams[data.name] = new Meter data, socket
             
             
             
@@ -164,6 +189,25 @@ require ['jquery', 'raphael', 'socketio'], ($, Raphael, io) ->
             stream.render()
     , 50)
             
+    $ ->
+    
+        
+        $('#sms-number').click ->
+            console.log 'haha'
+            $(this).hide();
+            $('#sms-input').show().focus().select()
             
+        foo = ->
+            $('#sms-input').hide();
+            $('#sms-number').show()            
+            val = $('#sms-input').val()            
+            $('#sms-number').text val
+            console.log val
+            socket.emit 'phone', val
             
-            
+        $('#sms-input').blur foo
+        
+        $('#sms-form').submit ->
+            foo()
+                
+            return false

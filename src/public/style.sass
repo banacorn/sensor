@@ -8,6 +8,12 @@
         style: normal
         weight: normal
     src: local('Hammersmith One'), local('HammersmithOne'), url('fonts/HammersmithOne.woff') format('woff')
+@font-face
+    font:
+        family: 'Ubuntu Mono'
+        style: normal
+        weight: normal
+    src: url('fonts/ubuntu_mono.woff') format('woff')
 
 $grau: rgb(200, 200, 200)
 
@@ -18,6 +24,49 @@ body
     width: 1000px
     margin: 20px auto
 
+h1
+    font-family: 'Hammersmith One'
+    color: rgb(120, 120, 120)
+    font-size: 120%
+
+#sms
+    width: 980px
+    padding: 10px
+    margin: 20px 10px
+    background: rgb(250, 250, 250)
+    
+    border-radius: 8px
+
+    height: 30px
+    line-height: 30px
+    
+    
+    input
+        font-family: 'Ubuntu Mono'
+        display: none
+        height: 30px
+        width: 980px
+        
+        border: none
+        border: none
+        padding: 0
+        margin: 0
+        border-radius: 4px
+        background: rgb(250, 250, 250)
+        
+        font-size: 20px
+        
+    #sms-number
+        font-family: 'Ubuntu Mono'
+        height: 30px
+        width: 980px
+        
+        border: none
+        padding: 0
+        margin: 0
+        border-radius: 4px
+        font-size: 20px
+        
 
 #wave
 #meter

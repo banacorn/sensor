@@ -10,12 +10,14 @@
   });
 
   require(['jquery', 'raphael', 'socketio'], function($, Raphael, io) {
-    var Meter, Wave, socket, streamList, streams;
+    var Meter, Wave, phone, socket, streamList, streams;
+    phone = '';
     Meter = (function() {
 
-      function Meter(data) {
+      function Meter(data, socket) {
         var html;
         this.data = data;
+        this.socket = socket;
         html = $('#meter-template').html();
         $(html).attr('id', this.data.name).appendTo('#meter');
         $("#" + this.data.name + " .name").text(this.data.name);
@@ -41,10 +43,12 @@
 
       Wave.prototype.width = 480;
 
-      function Wave(data) {
+      function Wave(data, socket) {
         var html, lowerThreshold, now, upperThreshold;
         this.data = data;
+        this.socket = socket;
         now = new Date;
+        this.data.alert = false;
         this.data.values = [];
         this.data.values.push({
           time: (new Date).getTime(),
@@ -75,18 +79,29 @@
       }
 
       Wave.prototype.add = function(data) {
-        var now, _results;
+        var now;
         now = (new Date).getTime();
         this.data.values.push({
           time: (new Date).getTime(),
           value: data.value,
           name: data.name
         });
-        _results = [];
         while ((now - this.data.values[0].time) > 3500) {
-          _results.push(this.data.values.shift());
+          this.data.values.shift();
         }
-        return _results;
+        if (!this.data.alert) {
+          if (data.value > data.upperThreshold || data.value < data.lowerThreshold) {
+            console.log("!!!!!!!!!");
+            this.data.alert = true;
+            this.socket.emit('sms');
+          }
+        }
+        if (this.data.alert) {
+          if (data.value < data.upperThreshold && data.value > data.lowerThreshold) {
+            console.log("123123123");
+            return this.data.alert = false;
+          }
+        }
       };
 
       Wave.prototype.update = function() {
@@ -122,6 +137,11 @@
     streamList = [];
     streams = {};
     socket = io.connect();
+    socket.on('phone', function(number) {
+      console.log(number);
+      phone = number;
+      return $('#sms-number').text(phone);
+    });
     socket.on('data', function(data) {
       var _ref;
       data = JSON.parse(data);
@@ -137,13 +157,13 @@
           data.waveform = true;
         }
         if (data.waveform) {
-          return streams[data.name] = new Wave(data);
+          return streams[data.name] = new Wave(data, socket);
         } else {
-          return streams[data.name] = new Meter(data);
+          return streams[data.name] = new Meter(data, socket);
         }
       }
     });
-    return setInterval(function() {
+    setInterval(function() {
       var key, stream, _results;
       _results = [];
       for (key in streams) {
@@ -152,6 +172,28 @@
       }
       return _results;
     }, 50);
+    return $(function() {
+      var foo;
+      $('#sms-number').click(function() {
+        console.log('haha');
+        $(this).hide();
+        return $('#sms-input').show().focus().select();
+      });
+      foo = function() {
+        var val;
+        $('#sms-input').hide();
+        $('#sms-number').show();
+        val = $('#sms-input').val();
+        $('#sms-number').text(val);
+        console.log(val);
+        return socket.emit('phone', val);
+      };
+      $('#sms-input').blur(foo);
+      return $('#sms-form').submit(function() {
+        foo();
+        return false;
+      });
+    });
   });
 
 }).call(this);

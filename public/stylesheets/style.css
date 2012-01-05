@@ -70,24 +70,74 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   src: local("Hammersmith One"), local("HammersmithOne"), url("fonts/HammersmithOne.woff") format("woff");
 }
 
-/* line 14, ../../src/public/style.sass */
+@font-face {
+  font-family: "Ubuntu Mono";
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/ubuntu_mono.woff") format("woff");
+}
+
+/* line 20, ../../src/public/style.sass */
 body {
   font-family: Helvetica, Verdana, "LiHei Pro", "微軟正黑體", "新細明體", Arial, sans-serif;
 }
 
-/* line 17, ../../src/public/style.sass */
+/* line 23, ../../src/public/style.sass */
 #container {
   width: 1000px;
   margin: 20px auto;
 }
 
-/* line 23, ../../src/public/style.sass */
+/* line 27, ../../src/public/style.sass */
+h1 {
+  font-family: "Hammersmith One";
+  color: #787878;
+  font-size: 120%;
+}
+
+/* line 32, ../../src/public/style.sass */
+#sms {
+  width: 980px;
+  padding: 10px;
+  margin: 20px 10px;
+  background: #fafafa;
+  border-radius: 8px;
+  height: 30px;
+  line-height: 30px;
+}
+/* line 44, ../../src/public/style.sass */
+#sms input {
+  font-family: "Ubuntu Mono";
+  display: none;
+  height: 30px;
+  width: 980px;
+  border: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 4px;
+  background: #fafafa;
+  font-size: 20px;
+}
+/* line 59, ../../src/public/style.sass */
+#sms #sms-number {
+  font-family: "Ubuntu Mono";
+  height: 30px;
+  width: 980px;
+  border: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 4px;
+  font-size: 20px;
+}
+
+/* line 72, ../../src/public/style.sass */
 #meter {
   overflow: hidden;
   *zoom: 1;
 }
 
-/* line 26, ../../src/public/style.sass */
+/* line 75, ../../src/public/style.sass */
 .chart {
   float: left;
   overflow: hidden;
@@ -98,7 +148,7 @@ body {
   border-radius: 8px;
 }
 
-/* line 36, ../../src/public/style.sass */
+/* line 85, ../../src/public/style.sass */
 .meter {
   float: left;
   width: 230px;
@@ -107,7 +157,7 @@ body {
   box-shadow: inset #c8c8c8 0px 0px 10px;
   border-radius: 8px;
 }
-/* line 43, ../../src/public/style.sass */
+/* line 92, ../../src/public/style.sass */
 .meter .digits {
   position: relative;
   z-index: 80;
@@ -117,7 +167,7 @@ body {
   color: #787878;
 }
 
-/* line 51, ../../src/public/style.sass */
+/* line 100, ../../src/public/style.sass */
 .foo {
   position: relative;
   z-index: 100;
@@ -126,18 +176,18 @@ body {
   padding: 0 20px;
   line-height: 40px;
 }
-/* line 59, ../../src/public/style.sass */
+/* line 108, ../../src/public/style.sass */
 .foo .name {
   color: #a0a0a0;
   font-size: 150%;
 }
-/* line 63, ../../src/public/style.sass */
+/* line 112, ../../src/public/style.sass */
 .foo .unit {
   color: #b4b4b4;
   padding-left: 10px;
 }
 
-/* line 68, ../../src/public/style.sass */
+/* line 117, ../../src/public/style.sass */
 .template {
   display: none;
 }

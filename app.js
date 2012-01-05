@@ -1,5 +1,5 @@
 (function() {
-  var EE, EventEmitter, io, net, server;
+  var EE, EventEmitter, io, net, phone, server, sms;
 
   io = require('./server').io;
 
@@ -7,7 +7,13 @@
 
   EventEmitter = require('events').EventEmitter;
 
+  sms = require('hinet-sms').createConnection();
+
   EE = new EventEmitter;
+
+  phone = '';
+
+  sms.auth('89929940', '8ae7214f');
 
   server = net.createServer(function(client) {
     console.log('client connected');
@@ -18,7 +24,6 @@
       return console.log(error);
     });
     return client.on('data', function(data) {
-      console.log(data.toString());
       return EE.emit('data', data.toString());
     });
   });
@@ -26,8 +31,16 @@
   server.listen(4900);
 
   io.sockets.on('connection', function(socket) {
-    return EE.on('data', function(data) {
+    socket.emit('phone', phone);
+    EE.on('data', function(data) {
       return socket.emit('data', data);
+    });
+    socket.on('sms', function() {
+      return sms.send(phone, 'Your item has been moved!! sent by MyCon-Come Text Service');
+    });
+    return socket.on('phone', function(number) {
+      console.log(number);
+      return phone = number;
     });
   });
 
